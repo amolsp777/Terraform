@@ -1,6 +1,8 @@
 # Azure VM with AD Join using Terraform
 
 This repository contains Terraform code to create an Azure Virtual Machine (VM) running Ubuntu and automatically join it to an Active Directory (AD) domain. The custom script to join the AD is downloaded from a specified URL.
+This code is specially for Linux-based machines to join in AD Domain. 
+### Join Azure Linux VM in AD doamin
 
 ## Prerequisites
 
