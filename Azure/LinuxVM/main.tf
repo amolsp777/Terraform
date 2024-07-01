@@ -91,7 +91,7 @@ resource "azurerm_virtual_machine_extension" "ad_join" {
 
   settings = <<SETTINGS
     {
-      "commandToExecute": "bash -c 'wget -O /tmp/join-ad.sh https://example.com/join-ad.sh && chmod +x /tmp/join-ad.sh && /tmp/join-ad.sh ${var.ad_domain} ${var.ad_user} ${var.ad_password}'"
+      "commandToExecute": "bash -c 'wget -O /tmp/join-ad.sh https://raw.githubusercontent.com/amolsp777/Terraform/main/Azure/LinuxVM/join-ad.sh && bash /tmp/join-ad.sh ${var.ad_domain} ${var.ad_user} ${var.ad_password} ${var.ad_ou} ${var.ad_group}'"
     }
   SETTINGS
 }
