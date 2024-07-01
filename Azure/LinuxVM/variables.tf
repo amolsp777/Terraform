@@ -16,6 +16,13 @@ variable "ad_domain" {
   default     = "example.com"
 }
 
+variable "ad_group" {
+  description = "AD group from example.com domain to allow AD user login."
+  type        = string
+  default     = "linuxAdmin"
+}
+
+
 variable "ad_user" {
   description = "The Active Directory user with permissions to join the domain"
   type        = string
@@ -26,4 +33,10 @@ variable "ad_password" {
   description = "The password for the Active Directory user"
   type        = string
   default     = "ad_admin_password"
+}
+
+variable "ad_ou" {
+  description = "The Active Directory OU location to create Linux VM object"
+  type        = string
+  default     = "ou=linux,ou=Server,dc=example,dc=com"
 }
