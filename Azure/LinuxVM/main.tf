@@ -1,3 +1,7 @@
+provider "azurerm" {
+  features {}
+}
+
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
   location = "East US"
@@ -15,18 +19,6 @@ resource "azurerm_subnet" "internal" {
   resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.2.0/24"]
-}
-
-resource "azurerm_network_interface" "example" {
-  name                = "example-nic"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.internal.id
-    private_ip_address_allocation = "Dynamic"
-  }
 }
 
 resource "azurerm_public_ip" "example" {
@@ -72,15 +64,15 @@ resource "azurerm_virtual_machine" "example" {
 
   os_profile {
     computer_name  = "hostname"
-    admin_username = "adminuser"
-    admin_password = "Password1234!"
+    admin_username = var.admin_username
+    admin_password = var.admin_password
   }
 
   os_profile_linux_config {
     disable_password_authentication = false
 
     ssh_keys {
-      path     = "/home/adminuser/.ssh/authorized_keys"
+      path     = "/home/${var.admin_username}/.ssh/authorized_keys"
       key_data = file("~/.ssh/id_rsa.pub")
     }
   }
@@ -90,36 +82,16 @@ resource "azurerm_virtual_machine" "example" {
   }
 }
 
-resource "azurerm_virtual_machine_extension" "example" {
-  name                 = "example-vm-extension"
-  virtual_machine_id   = azurerm_virtual_machine.example.id
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
-
-  settings = <<SETTINGS
-    {
-        "commandToExecute": "bash -c 'apt-get update && apt-get install -y realmd sssd adcli krb5-user packagekit'"
-    }
-  SETTINGS
-}
-
 resource "azurerm_virtual_machine_extension" "ad_join" {
   name                 = "ad-join"
   virtual_machine_id   = azurerm_virtual_machine.example.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
-  type_handler_version = "2.0"
+  type_handler_version = "2.1"
 
   settings = <<SETTINGS
     {
-        "commandToExecute": "bash -c 'realm join --user=ad_admin_user example.com'"
+      "commandToExecute": "bash -c 'wget -O /tmp/join-ad.sh https://example.com/join-ad.sh && chmod +x /tmp/join-ad.sh && /tmp/join-ad.sh ${var.ad_domain} ${var.ad_user} ${var.ad_password}'"
     }
   SETTINGS
-
-  protected_settings = <<PROTECTED_SETTINGS
-    {
-        "script": "echo 'ad_admin_password' | realm join --user=ad_admin_user example.com"
-    }
-  PROTECTED_SETTINGS
 }
