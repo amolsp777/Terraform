@@ -7,7 +7,7 @@ Terraform related information and code
 * Terraform: [https://developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/install)
 
 
-### ![My Skills](https://skillicons.dev/icons?i=terraform)  Terraform commands
+### <img align="left" width="30" height="30" src="https://api.iconify.design/devicon:terraform.svg">  Terraform commands
 
 Open a new terminal and run
 
