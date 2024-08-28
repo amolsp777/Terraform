@@ -7,7 +7,8 @@ Terraform related information and code
 * Terraform: [https://developer.hashicorp.com/terraform/install](https://developer.hashicorp.com/terraform/install)
 
 
-### Terraform commands
+### ![My Skills](https://skillicons.dev/icons?i=terraform)  Terraform commands
+
 Open a new terminal and run
 
 This will Prepare your working directory and download all the necessary files for the provider.
