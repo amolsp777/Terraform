@@ -1,4 +1,4 @@
-# Terraform Setup
+# <img align="left" width="30" height="30" src="https://api.iconify.design/devicon:terraform.svg">  Terraform Setup 
 Terraform related information and code
 
 ### Prerequisites
